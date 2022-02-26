@@ -1,14 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
-import { PbEnv } from "@pb-config/environments/pb-env.service";
 import { PrismaService } from "@pb-components/prisma/prisma.service";
+import { PbEnv } from "@pb-config/environments/pb-env.service";
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const winstonLogger = app.get(WINSTON_MODULE_NEST_PROVIDER);
-  // app.use(winstonLogger);
+  app.useLogger(winstonLogger);
   const pbEnv = app.get(PbEnv);
 
   const prismaService: PrismaService = app.get(PrismaService);
@@ -18,4 +18,5 @@ async function bootstrap() {
   await app.listen(pbEnv.Port, '127.0.0.1');
   winstonLogger.log(`PORT: ${pbEnv.Port}`)
 }
+
 bootstrap();

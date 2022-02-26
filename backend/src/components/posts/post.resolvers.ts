@@ -1,8 +1,9 @@
-import {Int, Query, Resolver} from '@nestjs/graphql';
-import {ConfigService} from "@nestjs/config";
-import {PbEnv} from "../../config/environments/pb-env.service";
-import {PostModel} from "@pb-components/posts/interfaces/post.model";
-import {PrismaService} from "@pb-components/prisma/prisma.service";
+import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { ConfigService } from "@nestjs/config";
+import { PbEnv } from "../../config/environments/pb-env.service";
+import { PostModel } from "@pb-components/posts/interfaces/post.model";
+import { PrismaService } from "@pb-components/prisma/prisma.service";
+import { GetPostsArgs } from './interfaces/get-posts-connection.args';
 
 @Resolver((of) => PostModel)
 export class PostsResolver {
@@ -10,8 +11,8 @@ export class PostsResolver {
     private readonly prisma: PrismaService,
   ) { }
 
-  @Query(() => [PostModel], { name: 'posts', nullable: true })
-  async getPosts() {
+  @Query(() => [PostModel], { name: 'fixedPosts', nullable: true })
+  async getPostsByFixedData() {
     return [
       {
         id: '1',
@@ -27,5 +28,22 @@ export class PostsResolver {
   @Query(() => [PostModel], { name: 'prismaPosts', nullable: true })
   async getPostsByPrisma() {
     return this.prisma.post.findMany();
+  }
+
+  @Query(() => [PostModel], { name: 'posts', nullable: true })
+  async getPosts(@Args() args: GetPostsArgs) {
+    return this.prisma.post.findMany({
+      where: {
+        type: args.type
+          ? {
+            in: args.type,
+          }
+          : undefined,
+        published: true,
+      },
+      orderBy: {
+        publishDate: 'desc',
+      }
+    });
   }
 }

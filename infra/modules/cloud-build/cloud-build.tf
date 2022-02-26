@@ -15,8 +15,8 @@ resource "google_cloudbuild_trigger" "deploy-backend-training-app" {
       branch = "^main$"
     }
   }
-  included_files = ["graphql-nestjs/backend/**"]
-  filename       = "graphql-nestjs/backend/cloudbuild.yml"
+  included_files = ["backend/**"]
+  filename       = "backend/cloudbuild.yml"
   substitutions = {
     _REGION                         = var.region
     _CLOUDSQL_INSTANCE_FULL_NAME    = var.cloudsql_instance_full_name

@@ -2,9 +2,9 @@ version: "3"
 
 # Cloud SQL 環境のDBにアクセスするプロキシ
 services:
-  blog-training-db-cloud-sql:
+  blog-tutorial-db-cloud-sql:
     image: "gcr.io/cloudsql-docker/gce-proxy:latest"
-    container_name: blog-training-db-cloud-sql
+    container_name: blog-tutorial-db-cloud-sql
     command:
       [
         "/cloud_sql_proxy",

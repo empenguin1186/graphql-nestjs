@@ -6,9 +6,9 @@ volumes:
 services:
   db:
     image: postgres:14
-    container_name: blog-training-db
+    container_name: blog-tutorial-db
     volumes:
-      - db-data:/var/lib/postgresql/blog_training_db_development/data
+      - db-data:/var/lib/postgresql/blog_tutorial_db_development/data
     ports:
       - "5432:5432"
     environment:

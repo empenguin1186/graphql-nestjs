@@ -5,8 +5,8 @@ variable "target_region" {
 }
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database
-resource "google_sql_database_instance" "blog-training-db" {
-  name                = "blog-training-db"
+resource "google_sql_database_instance" "blog-tutorial-db" {
+  name                = "blog-tutorial-db"
   database_version    = "POSTGRES_14"
   region              = var.target_region
   deletion_protection = false # 検証で作成するため、あとで消したい
@@ -22,12 +22,12 @@ resource "google_sql_database_instance" "blog-training-db" {
     }
   }
 }
-resource "google_sql_database" "blog-training-db" {
-  name     = "blog_training_db"
-  instance = google_sql_database_instance.blog-training-db.name
+resource "google_sql_database" "blog-tutorial-db" {
+  name     = "blog_tutorial_db"
+  instance = google_sql_database_instance.blog-tutorial-db.name
 }
 
 # ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance#attributes-reference
-output "blog_training_db_connection_name" {
-  value = google_sql_database_instance.blog-training-db.connection_name
+output "blog_tutorial_db_connection_name" {
+  value = google_sql_database_instance.blog-tutorial-db.connection_name
 }

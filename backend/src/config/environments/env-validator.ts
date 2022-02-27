@@ -1,5 +1,5 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString, validateSync } from "class-validator";
 import { plainToClass } from "class-transformer";
+import { IsEnum, IsNotEmpty, IsNumberString, IsString, validateSync } from "class-validator";
 
 enum NodeEnvEnum {
   Development = 'development',
@@ -14,8 +14,8 @@ export class EnvValidator {
   @IsEnum(NodeEnvEnum)
   NODE_ENV: NodeEnvEnum;
 
-  @IsNumber()
-  PORT = 3333;
+  @IsNumberString()
+  PORT = 3000;
 
   @IsNotEmpty()
   @IsString()

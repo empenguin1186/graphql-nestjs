@@ -32,13 +32,13 @@ steps:
       - beta
       - run
       - deploy
-      - training-backend
+      - training-backend2
       - --quiet
       - --platform=managed
       - --project=$PROJECT_ID
       - --region=$_REGION
       - --image=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
-      - --service-account=$_SERVICE_ACCOUNT
+      # - --service-account=$_SERVICE_ACCOUNT
       - --add-cloudsql-instances=$_CLOUDSQL_INSTANCE_FULL_NAME
       - --revision-suffix=$SHORT_SHA
       - --tag=latest
@@ -60,7 +60,7 @@ substitutions:
   _REGION: by-terraform
   _CLOUDSQL_INSTANCE_FULL_NAME: by-terraform
   _ARTIFACT_REPOSITORY_IMAGE_NAME: by-terraform
-  _SERVICE_ACCOUNT: by-terraform
+  # _SERVICE_ACCOUNT: by-terraform
   # _CONTENTS_BUCKET_NAME: by-terraform
 availableSecrets:
   secretManager:

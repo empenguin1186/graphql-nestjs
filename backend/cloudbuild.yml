@@ -22,19 +22,10 @@ steps:
     entrypoint: "bash"
     args:
       - "-c"
-      - "/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -e DATABASE_URL=$$DATABASE_URL -s $_CLOUDSQL_INSTANCE_FULL_NAME -- yarn prisma migrate deploy"
+      - "/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -e DATABASE_URL=$$DATABASE_URL -s $_CLOUDSQL_INSTANCE_FULL_NAME -- yarn prisma migrate deploy && yarn prisma db seed"
     secretEnv: ["DATABASE_URL"]
     dir: "backend"
     waitFor: ["push-backend"]
-  - id: "seeding"
-    name: "gcr.io/google-appengine/exec-wrapper"
-    entrypoint: "bash"
-    args:
-      - "-c"
-      - "/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -e DATABASE_URL=$$DATABASE_URL -s $_CLOUDSQL_INSTANCE_FULL_NAME -- yarn prisma db seed"
-    secretEnv: ["DATABASE_URL"]
-    dir: "backend"
-    waitFor: ["apply-migrations"]
   - id: deploy-backend
     name: gcr.io/cloud-builders/gcloud
     args:
@@ -63,7 +54,7 @@ steps:
       - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID
       - --update-secrets=DATABASE_URL=BLOG_TRAINING_DATABASE_URL:latest
     dir: "backend"
-    waitFor: ["seeding"]
+    waitFor: ["apply-migrations"]
 timeout: 2000s
 substitutions:
   _REGION: by-terraform

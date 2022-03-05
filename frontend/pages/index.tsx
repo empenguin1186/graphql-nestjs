@@ -1,10 +1,8 @@
-import { Avatar, Chip, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import type { GetServerSideProps, NextPage } from 'next'
 import { PostListView } from '../src/components/post/PostListView';
-import { PostFragment, PostIndexPageDocument, PostModel } from '../src/graphql/generated.graphql';
-import { isoStringToJstDate } from '../src/libs/date';
+import { PostFragment, PostIndexPageDocument } from '../src/graphql/generated.graphql';
 import { urqlClient } from '../src/libs/gql-requests';
 
 type Props = {

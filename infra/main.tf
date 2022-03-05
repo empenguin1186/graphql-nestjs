@@ -44,3 +44,8 @@ module "cloud-build" {
   github_owner                = "empenguin1186"
   github_app_repo_name        = "graphql-nestjs"
 }
+
+module "cloud-storage" {
+  source = "./modules/cloud-storage"
+  gcp_project_id = var.gcp_project_id
+}

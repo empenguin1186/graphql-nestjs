@@ -37,6 +37,14 @@ export class PbEnv {
     return this.configService.get('DATABASE_URL');
   }
 
+  get ContentsBucketName(): string {
+    return this.configService.get('CONTENTS_BUCKET_NAME');
+  }
+
+  get GcpProjectId(): string {
+    return this.configService.get('GCP_PROJECT_ID');
+  }
+
   get PrismaOptionsFactory(): PrismaClientOptions {
     const logOptions = {
       development: [

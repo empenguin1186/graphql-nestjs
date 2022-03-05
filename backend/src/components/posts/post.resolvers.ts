@@ -1,34 +1,16 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { ConfigService } from "@nestjs/config";
-import { PbEnv } from "../../config/environments/pb-env.service";
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { PostModel } from "@pb-components/posts/interfaces/post.model";
 import { PrismaService } from "@pb-components/prisma/prisma.service";
 import { GetPostsArgs } from './interfaces/get-posts-connection.args';
+import { FindPostArgs } from './interfaces/find-post-args';
+import { GoogleStorageRepository } from '@pb-components/bucket-assets/repositories/google-storage.repository';
 
 @Resolver((of) => PostModel)
 export class PostsResolver {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly gcsRepository: GoogleStorageRepository,
   ) { }
-
-  @Query(() => [PostModel], { name: 'fixedPosts', nullable: true })
-  async getPostsByFixedData() {
-    return [
-      {
-        id: '1',
-        title: 'NestJS is so good.',
-      },
-      {
-        id: '2',
-        title: 'GraphQL is so good.',
-      },
-    ];
-  }
-
-  @Query(() => [PostModel], { name: 'prismaPosts', nullable: true })
-  async getPostsByPrisma() {
-    return this.prisma.post.findMany();
-  }
 
   @Query(() => [PostModel], { name: 'posts', nullable: true })
   async getPosts(@Args() args: GetPostsArgs) {
@@ -45,5 +27,24 @@ export class PostsResolver {
         publishDate: 'desc',
       }
     });
+  }
+
+  @Query(() => PostModel, { name: 'findPost', nullable: false })
+  async findPost(@Args() args: FindPostArgs) {
+    return await this.prisma.post.findUnique({
+      rejectOnNotFound: true,
+      where: {
+        id: args.id,
+        contentPath: args.contentPath,
+      },
+    });
+  }
+
+  @ResolveField(() => String, { name: 'bodyMarkdown', nullable: false })
+  async bodyMarkdown(@Parent() post: PostModel) {
+    const { contentPath } = post;
+    const markdown = await this.gcsRepository.download(contentPath);
+    const { content } = matter(markdown);
+    return content;
   }
 }

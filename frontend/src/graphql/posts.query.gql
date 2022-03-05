@@ -1,9 +1,17 @@
+fragment Post on PostModel {
+  id
+  title
+  type
+  publishDate
+  emoji
+}
+
 query PostIndexPage {
-  posts {
-    id
-    title
-    type
-    publishDate
-    emoji
+  articles: posts(type: ["article"]) {
+    ...Post
+  }
+
+  diaries: posts(type: ["diary"]) {
+    ...Post
   }
 }

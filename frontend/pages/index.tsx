@@ -2,12 +2,14 @@ import { Avatar, Chip, List, ListItem, ListItemAvatar, ListItemText, Stack, Typo
 import { grey } from '@mui/material/colors';
 import { Box } from '@mui/system';
 import type { GetServerSideProps, NextPage } from 'next'
-import { PostIndexPageDocument, PostModel } from '../src/graphql/generated.graphql';
+import { PostListView } from '../src/components/post/PostListView';
+import { PostFragment, PostIndexPageDocument, PostModel } from '../src/graphql/generated.graphql';
 import { isoStringToJstDate } from '../src/libs/date';
 import { urqlClient } from '../src/libs/gql-requests';
 
 type Props = {
-  posts: PostModel[];
+  articles: PostFragment[];
+  diaries: PostFragment[];
 };
 
 const Home: NextPage<Props> = (props) => {
@@ -17,25 +19,11 @@ const Home: NextPage<Props> = (props) => {
         minHeight: "100vh",
       }}
     >
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {props.posts.map((post) => (
-          <ListItem key={post.id}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: grey[300] }}> {post.emoji} </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              disableTypography
-              primary={post.title}
-              secondary={
-                <Stack direction="row" spacing={2}>
-                  <Chip size="small" color="warning" label={post.type} />
-                  <Typography>{isoStringToJstDate(post.publishDate)}</Typography>
-                </Stack>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
+      <Typography variant="h4">Articles</Typography>
+      <PostListView posts={props.articles} />
+      <Typography variant="h4">Diaries</Typography>
+      <PostListView posts={props.diaries} />
+
       <Box
         sx={{
           bgColor: "palette.primary.dark",
@@ -69,7 +57,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
     return {
       props: {
-        posts: result.data.posts,
+        articles: result.data.articles,
+        diaries: result.data.diaries,
       },
     };
   } catch (e) {

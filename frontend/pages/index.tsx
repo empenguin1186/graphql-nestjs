@@ -1,14 +1,13 @@
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Stack } from '@mui/material';
+import { Avatar, Chip, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { Box } from '@mui/system';
 import type { GetServerSideProps, NextPage } from 'next'
-import { PostIndexPageDocument } from '../src/graphql/generated.graphql';
+import { PostIndexPageDocument, PostModel } from '../src/graphql/generated.graphql';
+import { isoStringToJstDate } from '../src/libs/date';
 import { urqlClient } from '../src/libs/gql-requests';
 
 type Props = {
-  posts: {
-    id: string;
-    title: string;
-  }[];
+  posts: PostModel[];
 };
 
 const Home: NextPage<Props> = (props) => {
@@ -22,9 +21,18 @@ const Home: NextPage<Props> = (props) => {
         {props.posts.map((post) => (
           <ListItem key={post.id}>
             <ListItemAvatar>
-              <Avatar>絵</Avatar>
+              <Avatar sx={{ bgcolor: grey[300] }}> {post.emoji} </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={post.title} secondary="公開日" />
+            <ListItemText
+              disableTypography
+              primary={post.title}
+              secondary={
+                <Stack direction="row" spacing={2}>
+                  <Chip size="small" color="warning" label={post.type} />
+                  <Typography>{isoStringToJstDate(post.publishDate)}</Typography>
+                </Stack>
+              }
+            />
           </ListItem>
         ))}
       </List>

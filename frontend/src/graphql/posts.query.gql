@@ -4,5 +4,6 @@ query PostIndexPage {
     title
     type
     publishDate
+    emoji
   }
 }

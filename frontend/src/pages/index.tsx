@@ -1,9 +1,9 @@
 import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import type { GetServerSideProps, NextPage } from 'next'
-import { PostListView } from '../src/components/post/PostListView';
-import { PostFragment, PostIndexPageDocument } from '../src/graphql/generated.graphql';
-import { urqlClient } from '../src/libs/gql-requests';
+import { PostListView } from '../components/post/PostListView';
+import { PostFragment, PostIndexPageDocument } from '../graphql/generated.graphql';
+import { urqlClient } from '../libs/gql-requests';
 
 type Props = {
   articles: PostFragment[];

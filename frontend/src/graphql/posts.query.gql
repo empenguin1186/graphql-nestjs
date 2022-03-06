@@ -4,6 +4,7 @@ fragment Post on PostModel {
   type
   publishDate
   emoji
+  contentPath
 }
 
 query PostIndexPage {

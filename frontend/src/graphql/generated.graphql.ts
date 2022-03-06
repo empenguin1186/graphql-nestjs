@@ -48,19 +48,19 @@ export type QueryPostsArgs = {
   type?: InputMaybe<Array<Scalars['String']>>;
 };
 
-export type PostFragment = { __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null };
+export type PostFragment = { __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null, contentPath: string };
 
 export type PostIndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostIndexPageQuery = { __typename?: 'Query', articles?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null }> | null, diaries?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null }> | null };
+export type PostIndexPageQuery = { __typename?: 'Query', articles?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null, contentPath: string }> | null, diaries?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null, contentPath: string }> | null };
 
 export type PostDetailPageQueryVariables = Exact<{
   contentPath?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type PostDetailPageQuery = { __typename?: 'Query', post: { __typename?: 'PostModel', bodyMarkdown: string, id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null } };
+export type PostDetailPageQuery = { __typename?: 'Query', post: { __typename?: 'PostModel', bodyMarkdown: string, id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null, contentPath: string } };
 
 export const PostFragmentDoc = gql`
     fragment Post on PostModel {
@@ -69,6 +69,7 @@ export const PostFragmentDoc = gql`
   type
   publishDate
   emoji
+  contentPath
 }
     `;
 export const PostIndexPageDocument = gql`

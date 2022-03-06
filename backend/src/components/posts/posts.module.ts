@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { BucketAssetsModule } from '@pb-components/bucket-assets/bucket-assets.module';
 import { PostsResolver } from './post.resolvers';
 
 @Module({
-    providers: [PostsResolver],
+  // imports: [BucketAssetsModule],
+  providers: [PostsResolver],
 })
 export class PostsModule { }

@@ -4,12 +4,13 @@ import { PrismaService } from "@pb-components/prisma/prisma.service";
 import { GetPostsArgs } from './interfaces/get-posts-connection.args';
 import { FindPostArgs } from './interfaces/find-post-args';
 import { GoogleStorageRepository } from '@pb-components/bucket-assets/repositories/google-storage.repository';
+import matter from 'gray-matter';
 
 @Resolver((of) => PostModel)
 export class PostsResolver {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly gcsRepository: GoogleStorageRepository,
+    // private readonly gcsRepository: GoogleStorageRepository,
   ) { }
 
   @Query(() => [PostModel], { name: 'posts', nullable: true })
@@ -43,7 +44,8 @@ export class PostsResolver {
   @ResolveField(() => String, { name: 'bodyMarkdown', nullable: false })
   async bodyMarkdown(@Parent() post: PostModel) {
     const { contentPath } = post;
-    const markdown = await this.gcsRepository.download(contentPath);
+    // const markdown = await this.gcsRepository.download(contentPath);
+    const markdown = '';
     const { content } = matter(markdown);
     return content;
   }

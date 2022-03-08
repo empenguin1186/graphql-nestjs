@@ -3,7 +3,7 @@ import { GoogleStorageRepository } from "./repositories/google-storage.repositor
 
 @Module({
   imports: [],
-  // providers: [GoogleStorageRepository],
-  // exports: [GoogleStorageRepository],
+  providers: [GoogleStorageRepository],
+  exports: [GoogleStorageRepository],
 })
 export class BucketAssetsModule { }

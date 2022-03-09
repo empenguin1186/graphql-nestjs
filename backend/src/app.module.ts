@@ -1,4 +1,4 @@
-import { Inject, Module } from '@nestjs/common';
+import { CacheModule, Inject, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostsModule } from './components/posts/posts.module';
@@ -9,6 +9,7 @@ import { PbEnv } from "@pb-config/environments/pb-env.service";
 import { WinstonModule } from 'nest-winston';
 import { PrismaModule } from '@pb-components/prisma/prisma.module';
 import { BucketAssetsModule } from '@pb-components/bucket-assets/bucket-assets.module';
+import { ProfileModule } from '@pb-components/profile/profile.module';
 
 @Module({
   imports: [
@@ -30,7 +31,11 @@ import { BucketAssetsModule } from '@pb-components/bucket-assets/bucket-assets.m
       }),
     }),
     BucketAssetsModule,
+    CacheModule.register({
+      isGlobal: true,
+    }),
     PostsModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService, PostsResolver],

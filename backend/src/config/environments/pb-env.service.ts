@@ -9,6 +9,7 @@ import {
 import winston from "winston";
 import { LoggingWinston } from "@google-cloud/logging-winston";
 import { PrismaClientOptions } from "@prisma/client/runtime";
+import { HttpModuleOptions } from "@nestjs/axios";
 
 /**
  * アプリケーションで使用する設定値を取得するクラス
@@ -113,6 +114,17 @@ export class PbEnv {
       transports: this.isProduction()
         ? [loggingConsole, loggingCloudLogging]
         : [loggingConsole],
+    };
+  }
+
+  get MicroCmsHttpModuleOptionsFactory(): HttpModuleOptions {
+    return {
+      timeout: 5000,
+      maxRedirects: 5,
+      baseURL: this.configService.get('MICROCMS_ENDPOINT'),
+      headers: {
+        'X-MICROCMS-API-KEY': this.configService.get('MICROCMS_KEY'),
+      },
     };
   }
 }

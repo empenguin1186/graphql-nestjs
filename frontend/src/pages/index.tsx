@@ -1,36 +1,52 @@
-import { Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import type { GetServerSideProps, NextPage } from 'next'
 import { PostListView } from '../components/post/PostListView';
-import { PostFragment, PostIndexPageDocument } from '../graphql/generated.graphql';
+import { ProfileView } from '../components/profile/ProfileView';
+import { PostFragment, PostIndexPageDocument, ProfileFragment } from '../graphql/generated.graphql';
 import { urqlClient } from '../libs/gql-requests';
 
 type Props = {
   articles: PostFragment[];
   diaries: PostFragment[];
+  profile: ProfileFragment;
 };
 
 const Home: NextPage<Props> = (props) => {
   return (
-    <Stack
-      sx={{
-        minHeight: "100vh",
-      }}
-    >
-      <Typography variant="h4">Articles</Typography>
-      <PostListView posts={props.articles} />
-      <Typography variant="h4">Diaries</Typography>
-      <PostListView posts={props.diaries} />
-
+    <>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="stretch"
+        sx={{
+          minHeight: "100vh",
+        }}
+      >
+        <Container fixed sx={{ mt: 8, ml: 8 }}>
+          <Typography variant="h4">Articles</Typography>
+          <PostListView posts={props.articles} />
+          <Typography variant="h4">Diaries</Typography>
+          <PostListView posts={props.diaries} />
+        </Container>
+        <Box
+          sx={{
+            p: 4,
+            width: "400px",
+            backgroundColor: (theme) => theme.palette.primary.light,
+          }}
+        >
+          <ProfileView {...props.profile} />
+        </Box>
+      </Stack>
       <Box
         sx={{
-          bgColor: "palette.primary.dark",
           backgroundColor: (theme) => theme.palette.primary.dark,
           color: (theme) =>
             theme.palette.getContrastText(theme.palette.primary.dark),
           py: 3,
           textAlign: "center",
-          marginTop: "auto",
+          // marginTop: "auto",
         }}
       >
         <footer>
@@ -43,7 +59,7 @@ const Home: NextPage<Props> = (props) => {
           </a>
         </footer>
       </Box>
-    </Stack>
+    </>
   );
 };
 
@@ -57,6 +73,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
       props: {
         articles: result.data.articles,
         diaries: result.data.diaries,
+        profile: result.data.profile,
       },
     };
   } catch (e) {

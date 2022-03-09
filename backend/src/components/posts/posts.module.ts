@@ -3,7 +3,7 @@ import { BucketAssetsModule } from '@pb-components/bucket-assets/bucket-assets.m
 import { PostsResolver } from './post.resolvers';
 
 @Module({
-  // imports: [BucketAssetsModule],
+  imports: [BucketAssetsModule],
   providers: [PostsResolver],
 })
 export class PostsModule { }

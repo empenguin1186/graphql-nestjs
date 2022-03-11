@@ -10,7 +10,7 @@ import { WinstonModule } from 'nest-winston';
 import { PrismaModule } from '@pb-components/prisma/prisma.module';
 import { BucketAssetsModule } from '@pb-components/bucket-assets/bucket-assets.module';
 import { ProfileModule } from '@pb-components/profile/profile.module';
-import { ImpressionModel } from '@pb-components/impressions/interfaces/impression.model';
+import { ImpressionModule } from '@pb-components/impressions/impression.module';
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { ImpressionModel } from '@pb-components/impressions/interfaces/impressio
     }),
     PostsModule,
     ProfileModule,
-    ImpressionModel,
+    ImpressionModule,
   ],
   controllers: [AppController],
   providers: [AppService, PostsResolver],

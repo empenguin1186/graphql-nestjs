@@ -42,8 +42,17 @@ query PostDetailPage($contentPath: String) {
   post: findPost(contentPath: $contentPath) {
     ...Post
     bodyMarkdown
-    impressions {
-      ...Impression
-    }
+  }
+}
+
+query ImpressionContainer($postId: String!) {
+  impressions(postId: $postId, sortAs: "asc") {
+    ...Impression
+  }
+}
+
+mutation Impression($input: CreateImpressionInput!) {
+  addImpression(input: $input) {
+    ...Impression
   }
 }

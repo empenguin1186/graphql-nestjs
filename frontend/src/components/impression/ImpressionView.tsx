@@ -9,13 +9,13 @@ import {
   Typography,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { ImpressionFragment } from "@pb-graphql/generated.graphql";
 import dayjs from "dayjs";
 // 日本語で ◯日前 のように表示する場合
 import "dayjs/locale/ja";
 // 相対日時のプラグインを有効化
 import relativeTime from "dayjs/plugin/relativeTime";
 import React from "react";
+import { ImpressionFragment } from "../../graphql/generated.graphql";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ja");

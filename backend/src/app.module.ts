@@ -39,7 +39,6 @@ import { ConnectionModule } from './components/connection/connection.module';
     PostsModule,
     ProfileModule,
     ImpressionModule,
-    ConnectionModule,
   ],
   controllers: [AppController],
   providers: [AppService, PostsResolver],

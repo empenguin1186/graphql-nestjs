@@ -1,7 +1,8 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { Connection, Node, PageInfoModel } from '@pb-components/connection/interfaces/pagenation';
 
-@ObjectType()
-export class PostModel {
+@ObjectType({ implements: () => [Node] })
+export class PostModel implements Node {
   @Field((type) => ID)
   id: string;
 
@@ -28,4 +29,13 @@ export class PostModel {
 
   @Field((type) => GraphQLISODateTime, { nullable: true })
   publishDate?: Date;
+}
+
+@ObjectType({ implements: () => [Connection] })
+export class PostsConnection implements Connection {
+  @Field((type) => PageInfoModel, { nullable: false })
+  pageInfo: PageInfoModel;
+
+  @Field((type) => [PostModel], { nullable: false })
+  nodes: PostModel[];
 }

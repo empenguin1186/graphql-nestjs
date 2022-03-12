@@ -11,6 +11,7 @@ import { PrismaModule } from '@pb-components/prisma/prisma.module';
 import { BucketAssetsModule } from '@pb-components/bucket-assets/bucket-assets.module';
 import { ProfileModule } from '@pb-components/profile/profile.module';
 import { ImpressionModule } from '@pb-components/impressions/impression.module';
+import { ConnectionModule } from './components/connection/connection.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ImpressionModule } from '@pb-components/impressions/impression.module';
     PostsModule,
     ProfileModule,
     ImpressionModule,
+    ConnectionModule,
   ],
   controllers: [AppController],
   providers: [AppService, PostsResolver],
